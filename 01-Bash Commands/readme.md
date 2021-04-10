@@ -25,7 +25,7 @@
 | >> | Output stream, append to end | cat < hello.txt > hello2.text |
 | >> | Output stream, append to end | cat < hello.txt > hello2.text |
 | tail -n1 | print last n lines | |
-| `|` | Pipe, take output of prog1 as input for prog2 | ls -l / | tail -n1 |
+| `\|` | Pipe, take output of prog1 as input for prog2 | ls -l / | tail -n1 |
 | cd sys | System parameters that looks like a file system | |
 | sudo su | Run shell as super user | |
 | tee <file> | Print output to console and to file | |
