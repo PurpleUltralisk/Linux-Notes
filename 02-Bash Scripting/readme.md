@@ -61,8 +61,11 @@ done
 `$#` - Number of arguments 
 `$$` - pid, process id 
 `$@` - expand to all the arguments
-`/dev/null` is a directory, where whatever we write will be discarded
-`2>`
+`grep` search for a substring
+`/dev/null` is a notional directory, whatever we write to this folder will be discarded
+`2>` this is equivalent to else statement
+
+Then we check the output of the `grep` command: 
 `-ne` - comparison operator for not equal, for more info `man test`
 If file did not have foobar, output != 0
 Then appends foobar to end of file. 
@@ -70,16 +73,17 @@ Then appends foobar to end of file.
 To run it: `./example.sh mcd.sh script.py example.sh`
 Then check `mcd.sh` to see `# foobar` added to end of file.
 
-Globbing - or regex in commands
+## Globbing - or regex in commands
 `ls *.sh` - lists all files with `.sh`
 
-Expanding to line above 
+## Expanding to line above  
 ```bash
 convert image.png image.jpg
 convert image.{png,jpg}
 
 cp project{1,2}
 touch project{1,2}/src/test{1,2,3}.py
+
 touch {foo,bar}/{a..j} 
 ```
 
@@ -92,11 +96,80 @@ for arg in reversed(sys.argv[1:]):
     print(arg)
 ```
 Normally, you'd call the function using `python script.py a b c`
-`#!/usr/local/bin/python` This comment makes it possible to be executable using `./script.py a b c`. 
-It tells the shell that it has to use python to execute the script. 
+`#!/usr/local/bin/python` the shell that it has to use `python` to execute the script. 
+This comment makes it possible to be executable using `./script.py a b c`. 
 
 To make it able to run in every system change to `#!/usr/bin/env python`.
-python is given as an arguement.
+Run the python environment variable. 
+
+## Error Checking Bash Scripts
+use `shellcheck mcd.sh`
+
+## Manual / TLDR
+`man <command>` shows the manual for the commmand
+`tldr <command>` shows a shorter version 
+
+## Find Files
+`find . -name src -type d` 
+Starting in current folder `.`, find directory (`-type d`) with name src (`-name src`). 
+
+`find . -path "**/test/*.py" -type f` 
+Any number of folders, where there's a `test` folder housing a `.py` file.
+`-type f` stands for file. 
+`-mtime -1` last modified yesterday
+
+We can also do stuff with the files found. 
+`find . -name "*.tmp" -exec rm {} \;`
+Execute `rm` command for every file found. 
+
+## Locate
+Looks for paths in the filesystem with the argument
+`locate folderName`
+
+`updatedb` updates this filesystem database
+
+## Recursive grep
+`grep -R wordtoFind` will go through all subdirectories. 
+
+or use `rg` command this is called `ripgrep`. 
+`rg` "import requests" -t py ~/scratch`
+Or add 5 lines of contexts
+`rg` "import requests" -t -C 5 py ~/scratch`
+
+`rg -u --files-without-match "^#\!" -t sh`
+`-u` don't ignore hidden files
+This command asks to print all the files that don't match with the parameter given. 
+`"^#\!` - search files that don't have a `#` at the beginning. 
+
+Other similar tools: 
+`ag`
+`ack`
+
+## Finding old commands
+`history` will print all old commands
+Then we can try to find the ones we want 
+`history 1 | grep convert` - commands containing `convert`
+
+`ctrl+r` is a backward search, this is the same as the previous command.
+
+## FuzzyFinder fzf
+`cat example.sh | fzf`
+Then we can interactively look for the string 
+Default binding is `ctrl+r`. 
+
+## History substring search
+Dynamically search command history as you type
+Right arrow selects the command. 
+
+## tree
+Prints directory 
+
+## broot
+Same as tree, but has an 'unlisted' to collapse the files.
+Also has fuzzymatching
+
+## nnn
+interactive 
 
 
 
