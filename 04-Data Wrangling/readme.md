@@ -76,3 +76,55 @@ Here `(invalid )` is a capture group, and we are looking for 1+ instance of it.
 We want to capture the usernames, so here `user (.*)` does not have any modifiers.
 It will match 1 time.
 We can then refer back to the capture group by using `\2`. Here we replace the entire string with the username that we got matched with in the 2nd capture group.
+
+## wc
+
+Word count
+`wc -l` will count the number of lines
+
+## sort | uniq
+
+` | sort | uniq -c`
+Sort the results, count only unique results.
+` | sort | uniq -c | sort -nk1,1`
+Sort again after the unique filter.
+`-n` is numeric sort.
+`k1,1` start in first column
+
+## awk
+
+Similar to `sed` as an editor, but focuses on the column of data.
+`| sort | uniq -c | sort -nk1,1 | tail -n20 | awk '{print $2}' | paste -sd,`
+`awk '{print $2}` - print the 2nd column
+`paste` takes a bunch of lines combines it into a single line.
+`-sd,` means single line, with delimiter being `,`
+
+We can use regex with awk too:
+` | sort | uniq -c | awk '$1 == 1 && $2 ~/^c.*e$/ {print $0}`
+`$1 == 1` - first column be 1 time  
+second column to match with the regular expression
+
+## bc - a calculator
+
+` echo "1 + 2" | bc -l`
+We can pipe results using `awk` and `paste -sd+` to change it to an arithmetic expression.
+
+## R - is also callable
+
+gnuplot can plot data as well
+
+## xargs
+
+Takes lines of input and turns them into arguments
+`rustup toolchain list | grep nightly | grep -v 'nightly-x86' | grep 2019 | sed 's/-x86.*//' | xargs rustup toolchain uninstall`
+Here we format a list of Rust versions to find the ones we want to delete.
+Passing it to xargs with the command rustup toolchain uninstall.
+
+## ffmpeg and convert
+
+`ffmpeg -loglevel panic -i /dev/video0 -frames 1 -f image2 - | convert - -colorspace gray - | gzip | ssh tsp 'gzip -d | tee copy.png' | feh -`
+
+`ffmpeg` does encoding and decoding images.
+`convert` can convert images
+`tee` reads input, prints it to stdout and makes a copy
+`feh` displays the image
