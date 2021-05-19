@@ -1,3 +1,3 @@
 # Linux Notes
 
-Includes notes to MIT's Missing Semester [course](missing.csail.mit.edu).
+Includes notes to MIT's Missing Semester [course](https://missing.csail.mit.edu).
